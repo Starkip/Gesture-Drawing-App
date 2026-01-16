@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqow47bch5ocs"]
+[gd_scene load_steps=3 format=3 uid="uid://cqow47bch5ocs"]
 
 [ext_resource type="Script" uid="uid://c65niyst5g33" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://bilx6vqwic7ga" path="res://pasue_menu.tscn" id="2_0xm2m"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
+
+[node name="PasueMenu" parent="." instance=ExtResource("2_0xm2m")]
 
 [node name="Background" type="ColorRect" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -45,7 +48,7 @@ layout_mode = 2
 [node name="ImageCount" type="SpinBox" parent="Controls"]
 layout_mode = 2
 min_value = 5.0
-value = 20.0
+value = 10.0
 
 [node name="StartSession" type="Button" parent="Controls"]
 layout_mode = 2
