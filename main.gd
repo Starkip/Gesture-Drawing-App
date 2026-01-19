@@ -4,11 +4,12 @@ extends Node
 @onready var image_display: TextureRect = $ImageDisplayer
 @onready var timer_select: OptionButton = $Controls/Timers
 @onready var image_count: SpinBox = $Controls/ImageCount
-@onready var timer_display: Label = $Controls/TimerDisplay
-@onready var imgs_left: Label = $Controls/ImgsLeft
+@onready var timer_display: Label = $Controls/HBoxContainer/TimerDisplay
+@onready var imgs_left: Label = $Controls/HBoxContainer/ImgsLeft
 @onready var image_timer: Timer = $ImageTimer
 @onready var start_session: Button = $Controls/StartSession
 @onready var image_loader: Button = $Controls/LoadFolder
+@onready var images_loaded: Label = $ImagesLoaded
 
 var image_list: Array[ImageTexture] = []
 var current_timer: float = 30.0
@@ -22,20 +23,34 @@ func _ready() -> void:
 	timer_select.add_item("60s", 60)
 	timer_select.add_item("120s", 120)
 	timer_select.add_item("300s", 300)
+	image_display.hide()
+	timer_display.hide()
+	imgs_left.hide()
+
+	var images_loaded_ok := image_list.size() > 0
+	if images_loaded_ok:
+		images_loaded.text = "Images are loaded"
+	else:
+		images_loaded.text = "Images are not loaded"
+
 
 func _on_folder_dialog_dir_selected(dir: String) -> void:
-	load_images_from_folder(dir, image_count.value)
+	var images_check := load_images_from_folder(dir, image_count.value)
+	if images_check:
+		images_loaded.text = "Images are loaded"
+	else:
+		images_loaded.text = "Images are not loaded"
 	print("Loaded ", image_list.size(), " images!")
 
-func load_images_from_folder(path: String, max_count: int):
+func load_images_from_folder(path: String, max_count: int) -> bool:
 	image_list.clear()
 	var dir = DirAccess.open(path)
 	if dir == null:
 		print("Error opening folder!")
-		return
+		return false
 	dir.list_dir_begin()
 	var file_name: String = dir.get_next()
-	var loaded = 0
+	var loaded := 0
 	while file_name != "" and loaded < max_count:
 		var ext = file_name.get_extension().to_lower()
 		if ext in ["png", "jpg", "jpeg", "webp"]:
@@ -57,6 +72,9 @@ func load_images_from_folder(path: String, max_count: int):
 	print("Total loaded: ", image_list.size())
 	if image_list.size() > 0:
 		pick_random_image()
+		return true
+	else:
+		return false
 
 func pick_random_image():
 	if shuffled_list.size() > 0:
@@ -72,7 +90,7 @@ func _on_load_folder_pressed() -> void:
 	folder_dialog.popup_centered()
 
 func update_timer_display(time_left: float):
-	timer_display.text = "%.1f s" % time_left 
+	timer_display.text = "%.1f s /" % time_left 
 
 func update_imgs_left(String):
 	imgs_left.text = str(images_left)
@@ -103,6 +121,9 @@ func _on_start_session_pressed() -> void:
 
 	image_timer.wait_time = current_timer
 	session_on = true
+	timer_display.show()
+	image_display.show()
+	imgs_left.show()
 	image_timer.start()
 	update_timer_display(current_timer)
 	images_left = max_images
@@ -132,3 +153,5 @@ func end_session():
 	image_count.show()
 	timer_select.show()
 	image_loader.show()
+	timer_display.hide()
+	imgs_left.hide()

@@ -7,12 +7,15 @@
 script = ExtResource("1_ig7tw")
 
 [node name="PasueMenu" parent="." instance=ExtResource("2_0xm2m")]
+visible = false
+follow_viewport_enabled = true
 
 [node name="Background" type="ColorRect" parent="."]
 modulate = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -20,10 +23,11 @@ grow_vertical = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 170.0
+offset_top = 58.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 1
+expand_mode = 2
 stretch_mode = 5
 
 [node name="FolderDialog" type="FileDialog" parent="."]
@@ -31,36 +35,55 @@ title = "Open a Directory"
 file_mode = 2
 access = 2
 
+[node name="ImagesLoaded" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Controls" type="VBoxContainer" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 114.0
 grow_horizontal = 2
 
-[node name="LoadFolder" type="Button" parent="Controls"]
-layout_mode = 2
-text = "Select Image Folder
-"
-
 [node name="Timers" type="OptionButton" parent="Controls"]
 layout_mode = 2
+alignment = 1
 
 [node name="ImageCount" type="SpinBox" parent="Controls"]
 layout_mode = 2
 min_value = 5.0
 value = 10.0
+alignment = 1
+
+[node name="LoadFolder" type="Button" parent="Controls"]
+layout_mode = 2
+text = "Select Image Folder
+"
 
 [node name="StartSession" type="Button" parent="Controls"]
 layout_mode = 2
 text = "Start"
 
-[node name="TimerDisplay" type="Label" parent="Controls"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls"]
+layout_mode = 2
+alignment = 1
+
+[node name="TimerDisplay" type="Label" parent="Controls/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 32
 text = "Timer"
 
-[node name="ImgsLeft" type="Label" parent="Controls"]
+[node name="ImgsLeft" type="Label" parent="Controls/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "1"
