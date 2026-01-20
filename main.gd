@@ -123,6 +123,7 @@ func _on_start_session_pressed() -> void:
 	session_on = true
 	timer_display.show()
 	image_display.show()
+	images_loaded.hide()
 	imgs_left.show()
 	image_timer.start()
 	update_timer_display(current_timer)
@@ -155,3 +156,7 @@ func end_session():
 	image_loader.show()
 	timer_display.hide()
 	imgs_left.hide()
+	image_display.hide()
+	image_list.clear()
+	images_loaded.show()
+	images_loaded.text = "Load new Images"
